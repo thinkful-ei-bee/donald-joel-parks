@@ -44,6 +44,8 @@ function getYouTubeVideos(query, maxResults=10) {
 
   console.log(url);
 
+
+  
   fetch(url)
     .then(response => {
       if (response.ok) {
@@ -58,14 +60,7 @@ function getYouTubeVideos(query, maxResults=10) {
 }
 
 function watchForm() {
-
-  
   const url = `${searchURL}${apiKey}`;
-
-  fetch(url)
-    .then(response => response.json())
-    .then(myJson => console.log(myJson));
-
 
   console.log(url);
 
