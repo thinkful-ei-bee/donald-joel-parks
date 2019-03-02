@@ -4,6 +4,9 @@
 const apiKey = '46hGTGyBnYP9Fr6tkQwFUxJwBTlRNRh6ub93hXXa'; 
 const searchURL = 'https://developer.nps.gov/api/v1/parks?parkCode=acad&api_key=';
 
+const STORE = {
+  statesSelected: [],
+};
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
@@ -60,12 +63,19 @@ function getYouTubeVideos(query, maxResults=10) {
 }
 
 function watchForm() {
-  const url = `${searchURL}${apiKey}`;
-
-  console.log(url);
+  
+  // const url = `${searchURL}${apiKey}`;
+  // fetch(url)
+  //   .then(response => response.json())
+  //   .then(myJson => console.log(myJson));
+  // console.log(url);
 
   $('form').submit(event => {
     event.preventDefault();
+    $('input[type=checkbox]').each(function(){
+      if (this.checked)
+        STORE.statesSelected.push($(this).val());
+    });
     const searchTerm = $('#js-search-term').val();
     const maxResults = $('#js-max-results').val();
     getYouTubeVideos(searchTerm, maxResults);
