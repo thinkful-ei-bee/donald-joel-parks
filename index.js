@@ -139,6 +139,9 @@ function displayStart() {
 }
 
 function displayResults() {
+  // Delete previous results
+  $('#results-list').html('');
+  // Loop through API response and build HTML
   for (let i = 0; i < STORE.responseJson.data.length; i++){
     $('#results-list').append(
       `<li><h3>${STORE.responseJson.data[i].name}</h3>
@@ -196,9 +199,6 @@ function watchForm() {
     const searchTerm = $('#js-search-term').val();
     const maxResults = $('#js-max-results').val();
     getParksList(searchTerm, maxResults);
-
-    // STORE.view = 'show-results';
-    // render();
     
   });
 }
