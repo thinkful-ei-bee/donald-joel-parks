@@ -5,27 +5,7 @@ const searchURL = 'https://developer.nps.gov/api/v1/parks?parkCode=acad&api_key=
 
 const STORE = {
   statesSelected: [],
-  newSearch: false,
-  view: 'start',
-};
-
-function render() {
-  if(STORE.view === 'start') {
-    displayStart();
-  }
-  if(STORE.view === 'show-results') {
-    displayResults();
-  }
-}
-
-function formatQueryParams(params) {
-  const queryItems = Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
-  return queryItems.join('&');
-}
-
-function displayStart() {
-  let stateNames = [
+  stateNames: [
     'Alabama',
     'Alaska',
     'Arizona',
@@ -76,8 +56,8 @@ function displayStart() {
     'West Virginia',
     'Wisconsin',
     'Wyoming'
-  ];
-  let stateAbbr = [
+  ],
+  stateAbbr: [
     'AL',
     'AK',
     'AZ',
@@ -128,11 +108,32 @@ function displayStart() {
     'WV',
     'WI',
     'WY'
-  ];
+  ],
+  newSearch: false,
+  view: 'start',
+};
+
+function render() {
+  if(STORE.view === 'start') {
+    displayStart();
+  }
+  if(STORE.view === 'show-results') {
+    displayResults();
+  }
+}
+
+function formatQueryParams(params) {
+  const queryItems = Object.keys(params)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+  return queryItems.join('&');
+}
+
+function displayStart() {
+  
   let stateButtonList = [];
 
-  for(let i = 0; i < stateAbbr.length; i++){
-    stateButtonList.push(`<input type="checkbox" name='state' value="${stateAbbr[i]}">${stateNames[i]}<br>`);
+  for(let i = 0; i < STORE.stateAbbr.length; i++){
+    stateButtonList.push(`<input type="checkbox" name='state' value="${STORE.stateAbbr[i]}">${STORE.stateNames[i]}<br>`);
   }
   stateButtonList.join('');
   $('.js-state-button-list').html(stateButtonList);
