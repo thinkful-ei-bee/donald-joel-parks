@@ -4,6 +4,7 @@ const apiKey = '46hGTGyBnYP9Fr6tkQwFUxJwBTlRNRh6ub93hXXa';
 const searchURL = 'https://developer.nps.gov/api/v1/parks?parkCode=acad&api_key=';
 
 const STORE = {
+  view: 'start',
   statesSelected: [],
   stateNames: [
     'Alabama',
@@ -109,8 +110,7 @@ const STORE = {
     'WI',
     'WY'
   ],
-  newSearch: false,
-  view: 'start',
+  resposneJson: '',
 };
 
 function render() {
@@ -139,12 +139,12 @@ function displayStart() {
   $('.js-state-button-list').html(stateButtonList);
 }
 
-function displayResults(responseJson) {
-  for (let i = 0; i < responseJson.data.length; i++){
+function displayResults() {
+  for (let i = 0; i < STORE.responseJson.data.length; i++){
     $('#results-list').append(
-      `<li><h3>${responseJson.data[i].name}</h3>
-      <p>${responseJson.data[i].description}</p>
-      <a href='${responseJson.data[i].url}'>${responseJson.data[i].name}</a>
+      `<li><h3>${STORE.responseJson.data[i].name}</h3>
+      <p>${STORE.responseJson.data[i].description}</p>
+      <a href='${STORE.responseJson.data[i].url}'>${STORE.responseJson.data[i].name}</a>
       `
     );}
   $('#results').removeClass('hidden');
@@ -169,7 +169,7 @@ function getParksList(query, maxResults=10) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => displayResults(responseJson))
+    .then(responseJson => STORE.responseJson = responseJson)
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
