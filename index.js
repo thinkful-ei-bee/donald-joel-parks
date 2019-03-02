@@ -13,6 +13,9 @@ function render() {
   if(STORE.view === 'start') {
     displayStart();
   }
+  if(STORE.view === 'show-results') {
+    displayResults();
+  }
 }
 
 function formatQueryParams(params) {
@@ -173,33 +176,29 @@ function getParksList(query, maxResults=10) {
 
 function watchForm() {
 
-  
-  
-  
-
   $('form').submit(event => {
-
-    STORE.newSearch = !STORE.newSearch;
-    
+  
     event.preventDefault();
+
+    // Get all selected states
     $('input[type=checkbox]').each(function(){
       if (this.checked)
         STORE.statesSelected.push($(this).val());
     });
+
+    // If no states selected stop and ask for inputs
     if(STORE.statesSelected.length === 0) {
       alert('Please select at least one state');
       return;
     }
+
     const searchTerm = $('#js-search-term').val();
     const maxResults = $('#js-max-results').val();
     getParksList(searchTerm, maxResults);
-    
 
-    if(STORE.newSearch){
-      STORE.statesSelected = [];
-    }
+    STORE.view = 'show-results';
+    render();
     
-    watchForm();
   });
 }
 
