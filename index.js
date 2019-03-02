@@ -2,7 +2,7 @@
 
 // put your own value below!
 const apiKey = '46hGTGyBnYP9Fr6tkQwFUxJwBTlRNRh6ub93hXXa'; 
-const searchURL = 'https://www.googleapis.com/youtube/v3/search';
+const searchURL = 'https://developer.nps.gov/api/v1/parks?parkCode=acad&api_key=';
 
 
 function formatQueryParams(params) {
@@ -58,6 +58,17 @@ function getYouTubeVideos(query, maxResults=10) {
 }
 
 function watchForm() {
+
+  
+  const url = `${searchURL}${apiKey}`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(myJson => console.log(myJson));
+
+
+  console.log(url);
+
   $('form').submit(event => {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
