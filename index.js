@@ -109,22 +109,18 @@ const STORE = {
     'WI',
     'WY'
   ],
-  
 };
 
 function render() {
+
   if(STORE.view === 'start') {
     displayStart();
   }
+
   if(STORE.view === 'show-results') {
     displayResults();
   }
-}
 
-function formatQueryParams(params) {
-  const queryItems = Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
-  return queryItems.join('&');
 }
 
 function displayStart() {
@@ -136,11 +132,14 @@ function displayStart() {
   }
   stateButtonList.join('');
   $('.js-state-button-list').html(stateButtonList);
+
 }
 
 function displayResults() {
+
   // Delete previous results
   $('#results-list').html('');
+
   // Loop through API response and build HTML
   for (let i = 0; i < STORE.responseJson.data.length; i++){
     $('#results-list').append(
@@ -150,14 +149,17 @@ function displayResults() {
       `
     );}
   $('#results').removeClass('hidden');
+
 }
 
 function getParksList(query, maxResults=10) {
 
   let statesURL = [];
+
   for(let x in STORE.statesSelected) {
     statesURL.push(`stateCode=${STORE.statesSelected[x]}`);
   }
+
   statesURL = statesURL.join('&');
   let url = STORE.npsBaseUrl+statesURL;
 
@@ -176,6 +178,7 @@ function getParksList(query, maxResults=10) {
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
+
 }
 
 function watchForm() {
