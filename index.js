@@ -1,9 +1,8 @@
 'use strict';
 
-const apiKey = '46hGTGyBnYP9Fr6tkQwFUxJwBTlRNRh6ub93hXXa'; 
-const searchURL = 'https://developer.nps.gov/api/v1/parks?parkCode=acad&api_key=';
-
 const STORE = {
+  npsBaseUrl: 'https://api.nps.gov/api/v1/parks?',
+  npsApiKey: '46hGTGyBnYP9Fr6tkQwFUxJwBTlRNRh6ub93hXXa',
   view: 'start',
   statesSelected: [],
   stateNames: [
@@ -110,7 +109,7 @@ const STORE = {
     'WI',
     'WY'
   ],
-  resposneJson: '',
+  
 };
 
 function render() {
@@ -152,15 +151,12 @@ function displayResults() {
 
 function getParksList(query, maxResults=10) {
 
-  let npsURL = 'https://api.nps.gov/api/v1/parks?';
   let statesURL = [];
-
   for(let x in STORE.statesSelected) {
     statesURL.push(`stateCode=${STORE.statesSelected[x]}`);
   }
   statesURL = statesURL.join('&');
-
-  let url = npsURL+statesURL;
+  let url = STORE.npsBaseUrl+statesURL;
 
   fetch(url)
     .then(response => {
@@ -170,6 +166,10 @@ function getParksList(query, maxResults=10) {
       throw new Error(response.statusText);
     })
     .then(responseJson => STORE.responseJson = responseJson)
+    .then(() => {
+      STORE.view = 'show-results';
+      render();
+    })
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
@@ -197,8 +197,8 @@ function watchForm() {
     const maxResults = $('#js-max-results').val();
     getParksList(searchTerm, maxResults);
 
-    STORE.view = 'show-results';
-    render();
+    // STORE.view = 'show-results';
+    // render();
     
   });
 }
